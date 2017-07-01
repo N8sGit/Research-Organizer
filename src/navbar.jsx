@@ -4,9 +4,10 @@ import React from 'react'
 
 export default class NavigationBar extends React.Component {
   constructor(props) {
+    console.log(this.props)
     super(props)
   }
-  console.log(this.props.name)
+
   render() {
     return (
       <div className="menu">

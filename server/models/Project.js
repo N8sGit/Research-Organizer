@@ -14,7 +14,8 @@ var Project = db.define('Project', {
   },
 
   projectRefs = {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+
   }
 
   note: {
