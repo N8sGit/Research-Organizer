@@ -13,10 +13,10 @@ var Project = db.define('Project', {
     }
   },
 
-  projectRefs = {
+  projectRefs : {
     type: Sequelize.STRING,
 
-  }
+  },
 
   note: {
     type: Sequelize.TEXT,

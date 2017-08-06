@@ -21,7 +21,7 @@ var Paper = db.define('Paper', {
 
   abstract: {
     type: Sequelize.TEXT
-  }
+  },
 
   reference : {
     type: Sequelize.STRING
@@ -30,6 +30,6 @@ var Paper = db.define('Paper', {
 
 });
 
-Paper.belongsToMany(Project, { through: reference });
+Paper.belongsToMany(Project);
 
 module.exports = Paper

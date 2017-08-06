@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
 import rd3 from 'react-d3';
-import home from '/home.jsx'
+import home from './home.jsx'
 
 
 var Main = React.createClass({
