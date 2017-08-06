@@ -30,6 +30,5 @@ var Paper = db.define('Paper', {
 
 });
 
-Paper.belongsToMany(Project);
 
 module.exports = Paper
