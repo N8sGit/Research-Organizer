@@ -11,17 +11,24 @@ var Main = React.createClass({
 
   render: function() {
     return (
-      <nav/>
+    <div>
       <div>
-        <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
+        <nav/>  
+      </div>
+      
+      <div>
+      <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
         <ol>
           <ul> <p> To get started, simply click the start project button to add a project </p> </ul>
           <ul> <p> Search and save articles using the archive search api </p> </ul>
           <ul> <p> Collect papers to save to the project folders. </p> </ul>
         </ol>
       </div>
-      <home> </home>
-      <footer/>
+       
+      <div>
+        <footer/> 
+      </div>
+   </div>
     );
   }
 });
@@ -30,3 +37,4 @@ ReactDOM.render(
   <Main />,
   document.getElementById('content')
 );
+//
