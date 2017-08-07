@@ -6,17 +6,12 @@ var exInput1 = <p draggable="true" ondrag="myFunction(event)">Drag me!</p>
 export default class Clipboard{
     constructor(){
       this.snippets = [];
+      this.data = {};
     }
 
-  function copy(highlighted){
+   copy(highlighted){
      const leng = highlighted.length
      this.snippets.push(highlighted.slice(0,leng))
   }
 
-
-
-
-
-  const data = {
-  }
 }

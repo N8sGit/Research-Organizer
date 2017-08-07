@@ -3,12 +3,15 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 import rd3 from 'react-d3';
 import home from './home.jsx'
+import footer from './footer.jsx'
+import nav from './navbar.jsx'
 
 
 var Main = React.createClass({
 
   render: function() {
     return (
+      <nav/>
       <div>
         <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
         <ol>
@@ -17,6 +20,8 @@ var Main = React.createClass({
           <ul> <p> Collect papers to save to the project folders. </p> </ul>
         </ol>
       </div>
+      <home> </home>
+      <footer/>
     );
   }
 });

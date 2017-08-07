@@ -19,7 +19,7 @@ app.get('/dist/bundle.js', function(req,res){
 
 app.post('/api/project', function(req,res){
   let package = req.body
-  res.send('OK')
+  res.send(package)
 })
 
 app.listen(3000, function () {
