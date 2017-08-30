@@ -9,12 +9,20 @@ const app = express()
 
 app.use(bodyParser.json())
 
+
+app.use(function(req, res, next){ 
+  console.log(req.path) 
+  next()
+});
+
+
 app.get("/", function(req, res) {
    res.sendfile('index.html')
 });
 
-app.get('/dist/bundle.js', function(req,res){
-  res.sendfile('./dist/bundle.js')
+app.get('/destination', function(req,res){
+  console.log('this route is operational')
+  res.sendfile('./build/bundle.js')
 })
 
 app.post('/api/project', function(req,res){
