@@ -1,5 +1,5 @@
 {
-  "database": "alpha",
+  "database": "Research_Organizer",
   "dialect": "postgres",
   "logging": false
 }
