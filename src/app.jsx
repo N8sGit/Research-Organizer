@@ -5,6 +5,7 @@ import rd3 from 'react-d3';
 import home from './home.jsx'
 import footer from './footer.jsx'
 import nav from './navbar.jsx'
+import axios from 'axios'
 
 
 var Main = React.createClass({
@@ -23,6 +24,14 @@ var Main = React.createClass({
           <ul> <p> Search and save articles using the archive search api </p> </ul>
           <ul> <p> Collect papers to save to the project folders. </p> </ul>
         </ol>
+
+      <div>
+        <button onClick={postTest}>
+          Test me!
+        </button>
+      </div>
+
+
       </div>
        
       <div>
@@ -37,3 +46,14 @@ ReactDOM.render(
   <Main />,
   document.getElementById('content')
 );
+
+
+function postTest(){ 
+  axios.post('/Paper', { name: 'Example1' })
+    .then(function(response){
+      console.log(response)
+      console.log('saved successfully')
+    }).catch(function(error){
+      console.log(error)
+    })
+}

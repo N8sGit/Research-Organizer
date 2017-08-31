@@ -25,6 +25,20 @@ app.get('/destination', function(req,res){
   res.sendfile('./build/bundle.js')
 })
 
+app.post('/', function(req,res){
+  console.log(req.body, 'body')
+  console.log(Project.create, 'function?')
+  Project.create(req.body)
+  .then(function (created) {
+    console.log(created, 'created')
+    res.json({
+      message: 'Created successfully',
+      data: created
+    });
+  })
+})
+
+
 app.post('/api/project', function(req,res){
   let package = req.body
   res.send(package)
