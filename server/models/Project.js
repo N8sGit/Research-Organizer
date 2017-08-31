@@ -1,35 +1,33 @@
 const Sequelize = require('sequelize')
 const Paper = require('./Paper')
-console.log(Paper.reference)
 var db = require('../db');
 // Make sure you have `postgres` running!
 
 var Project = db.define('Project', {
   name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
+    type: Sequelize.STRING
     }
-  },
-
-  projectRefs : {
-    type: Sequelize.STRING,
-
-  },
-
-  note: {
-    type: Sequelize.TEXT,
-    defaultValue: '',
-
-  },
-
 });
 
-Project.belongsTo(Paper, {as: 'parent'});
+//Project.belongsTo(Paper, {as: 'parent'});
 
 
-
-
+Project.sync({force:true}).then(() => {
+  return Project.create({
+    name:'initial test'
+  });
+});
 
 module.exports = Project;
+
+
+// projectRefs : {
+//     type: Sequelize.STRING,
+
+//   },
+
+//   note: {
+//     type: Sequelize.TEXT,
+//     defaultValue: '',
+
+//   },

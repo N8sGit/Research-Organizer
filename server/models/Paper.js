@@ -30,5 +30,11 @@ var Paper = db.define('Paper', {
 
 });
 
+Paper.sync({force:true}).then(() => {
+  return Paper.create({
+    name:'initial test'
+  });
+});
+
 
 module.exports = Paper

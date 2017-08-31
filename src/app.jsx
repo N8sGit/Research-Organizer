@@ -49,7 +49,7 @@ ReactDOM.render(
 
 
 function postTest(){ 
-  axios.post('/Paper', { name: 'Example1' })
+  axios.post('/', { name: 'Example1' })
     .then(function(response){
       console.log(response)
       console.log('saved successfully')
