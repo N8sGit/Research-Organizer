@@ -10,7 +10,20 @@ import axios from 'axios'
 
 var Main = React.createClass({
 
-  render: function() {
+   post: function(route, data = {}){ 
+    axios.post(route, data)
+      .then((response)=>{
+        console.log(response, 'response')
+        let state = this.state
+        this.setState({})
+
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+  },
+
+render: function() {
     return (
     <div>
       <div>
@@ -26,9 +39,14 @@ var Main = React.createClass({
         </ol>
 
       <div>
-        <button onClick={postTest}>
+        <button onClick = { () =>{this.post('/', {name:'example2'})}}>
           Test me!
         </button>
+      </div>
+
+      <div className='display'> 
+
+
       </div>
 
 
@@ -48,12 +66,3 @@ ReactDOM.render(
 );
 
 
-function postTest(){ 
-  axios.post('/', { name: 'Example1' })
-    .then(function(response){
-      console.log(response)
-      console.log('saved successfully')
-    }).catch(function(error){
-      console.log(error)
-    })
-}
