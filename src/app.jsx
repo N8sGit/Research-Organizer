@@ -10,21 +10,28 @@ import axios from 'axios'
 
 var Main = React.createClass({
 
+  getInitialState: function() {
+    return {projects:[], papers:[]};
+  },
+
    post: function(route, data = {}){ 
     axios.post(route, data)
       .then((response)=>{
-        console.log(response, 'response')
         let state = this.state
-        this.setState({})
-
+        this.setState(state) 
       })
       .catch((error)=>{
         console.log(error)
       })
   },
 
+   
+
 render: function() {
-    return (
+  
+  let display = this.state.showText ? this.props.text : ' ';
+ 
+  return (
     <div>
       <div>
         <nav/>  
@@ -45,7 +52,8 @@ render: function() {
       </div>
 
       <div className='display'> 
-
+      
+      <div>{display}</div>
 
       </div>
 
