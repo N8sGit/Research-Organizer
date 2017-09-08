@@ -10,8 +10,43 @@ import axios from 'axios'
 
 var Main = React.createClass({
 
-  render: function() {
-    return (
+  getInitialState: function() {
+    return {projects:[], papers:[]};
+  },
+
+  componentDidMount: function(){
+    this.get('/api/project')
+  },
+
+  get: function(route, data = {}){
+    axios.get(route,data)
+      .then((response) =>{
+        let state = this.state;
+        state.projects.push(response.data)
+        this.setState(state)
+      })
+  },
+
+   post: function(route, data = {}){ 
+    axios.post(route, data)
+      .then((response)=>{
+        let state = this.state;
+        state.projects.push(response.data.info)
+        this.setState(state) 
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+  },
+
+   
+
+render: function() {
+  
+  let projectsDisplay = this.state.projects;
+ 
+  console.log(projectsDisplay)
+  return (
     <div>
       <div>
         <nav/>  
@@ -26,9 +61,20 @@ var Main = React.createClass({
         </ol>
 
       <div>
-        <button onClick={postTest}>
+        <button onClick = { () => {this.post('/', {name:'example2'})}}>
           Test me!
         </button>
+      </div>
+
+      <div className='mainDisplay'> 
+      
+      <div>{projectsDisplay.map(function(project){
+              return <div> {project.name} </div>
+            }
+          )
+        }
+      </div>
+
       </div>
 
 
@@ -47,13 +93,4 @@ ReactDOM.render(
   document.getElementById('content')
 );
 
-
-function postTest(){ 
-  axios.post('/', { name: 'Example1' })
-    .then(function(response){
-      console.log(response)
-      console.log('saved successfully')
-    }).catch(function(error){
-      console.log(error)
-    })
-}
+//

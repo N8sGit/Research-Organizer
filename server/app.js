@@ -1,6 +1,6 @@
-let express = require('express')
-let bodyParser = require('body-parser')
-let db = require('./db')
+const express = require('express')
+const bodyParser = require('body-parser')
+const db = require('./db')
 const Project = require('./models/Project')
 
 
@@ -9,7 +9,7 @@ const app = express()
 
 app.use(bodyParser.json())
 
-
+//a debugging feature
 app.use(function(req, res, next){ 
   console.log(req.path) 
   next()
@@ -21,24 +21,25 @@ app.get("/", function(req, res) {
 });
 
 app.get('/destination', function(req,res){
-  console.log('this route is operational')
   res.sendfile('./build/bundle.js')
 })
 
+app.get('/api/project', function(req,res){
+  Project.findAll()
+});
+
 app.post('/', function(req,res){
-  console.log(req.body, 'body')
-  console.log(Project.create, 'function?')
   Project.create(req.body)
   .then(function (created) {
-    console.log(created, 'created')
     res.json({
       message: 'Created successfully',
-      data: created
+      info: created
     });
     created.save()
   })
 })
 
+// what is this app.post even doing at this point???
 
 app.post('/api/project', function(req,res){
   let package = req.body
@@ -46,6 +47,5 @@ app.post('/api/project', function(req,res){
 })
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('listening on port 3000!')
 })
-//
