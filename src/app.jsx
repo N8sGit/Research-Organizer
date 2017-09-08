@@ -14,10 +14,24 @@ var Main = React.createClass({
     return {projects:[], papers:[]};
   },
 
+  componentDidMount: function(){
+    this.get('/api/project')
+  },
+
+  get: function(route, data = {}){
+    axios.get(route,data)
+      .then((response) =>{
+        let state = this.state;
+        state.projects.push(response.data)
+        this.setState(state)
+      })
+  },
+
    post: function(route, data = {}){ 
     axios.post(route, data)
       .then((response)=>{
-        let state = this.state
+        let state = this.state;
+        state.projects.push(response.data.info)
         this.setState(state) 
       })
       .catch((error)=>{
@@ -29,8 +43,9 @@ var Main = React.createClass({
 
 render: function() {
   
-  let display = this.state.showText ? this.props.text : ' ';
+  let projectsDisplay = this.state.projects;
  
+  console.log(projectsDisplay)
   return (
     <div>
       <div>
@@ -46,14 +61,19 @@ render: function() {
         </ol>
 
       <div>
-        <button onClick = { () =>{this.post('/', {name:'example2'})}}>
+        <button onClick = { () => {this.post('/', {name:'example2'})}}>
           Test me!
         </button>
       </div>
 
-      <div className='display'> 
+      <div className='mainDisplay'> 
       
-      <div>{display}</div>
+      <div>{projectsDisplay.map(function(project){
+              return <div> {project.name} </div>
+            }
+          )
+        }
+      </div>
 
       </div>
 
@@ -73,4 +93,4 @@ ReactDOM.render(
   document.getElementById('content')
 );
 
-
+//

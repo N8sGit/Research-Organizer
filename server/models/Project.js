@@ -9,7 +9,7 @@ var Project = db.define('Project', {
     }
 });
 
-//Project.belongsTo(Paper, {as: 'parent'});
+Project.hasMany(Paper, {as: 'parent'});
 
 
 Project.sync({force:true}).then(() => {
