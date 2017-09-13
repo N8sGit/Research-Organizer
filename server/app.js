@@ -25,7 +25,15 @@ app.get('/destination', function(req,res){
 })
 
 app.get('/api/project', function(req,res){
-  Project.findAll()
+  let package = Project.findAll()
+  package
+  .then(function(content){
+    res.json({
+      message: 'here are your projects',
+      info: content 
+    });
+  })
+  
 });
 
 app.post('/', function(req,res){

@@ -6,15 +6,20 @@ var db = require('../db');
 var Project = db.define('Project', {
   name: {
     type: Sequelize.STRING
-    }
+    },
+
+  projectRefs: {
+    type: Sequelize.ARRAY(Sequelize.STRING)
+  }  
+
 });
 
-Project.hasMany(Paper, {as: 'parent'});
+// Project.hasMany(Paper, {as: 'referenceArticles'});
 
 
-Project.sync({force:true}).then(() => {
+Project.sync({force:false}).then(() => {
   return Project.create({
-    name:'initial test'
+    name:''
   });
 });
 
