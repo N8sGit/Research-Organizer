@@ -10,14 +10,21 @@ var Project = db.define('Project', {
 
   projectRefs: {
     type: Sequelize.ARRAY(Sequelize.STRING)
-  }  
+  },
+
+  note: {
+    type: Sequelize.TEXT
+
+  }
+
+
 
 });
 
 // Project.hasMany(Paper, {as: 'referenceArticles'});
 
 
-Project.sync({force:false}).then(() => {
+Project.sync({force:true}).then(() => {
   return Project.create({
     name:''
   });
@@ -31,8 +38,4 @@ module.exports = Project;
 
 //   },
 
-//   note: {
-//     type: Sequelize.TEXT,
-//     defaultValue: '',
-
-//   },
+//   

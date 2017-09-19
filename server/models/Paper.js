@@ -30,7 +30,7 @@ var Paper = db.define('Paper', {
 
 });
 
-Paper.sync({force:false}).then(() => {
+Paper.sync({force:true}).then(() => {
   return Paper.create({
     name:'initial test'
   });

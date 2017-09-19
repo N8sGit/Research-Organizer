@@ -2,10 +2,10 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
 import rd3 from 'react-d3';
-import home from './home.jsx'
-import footer from './footer.jsx'
-import nav from './navbar.jsx'
-import singleView from './singleview.jsx'
+import Home from './home.jsx'
+import Footer from './footer.jsx'
+import Nav from './navbar.jsx'
+import SingleView from './singleview.jsx'
 import axios from 'axios'
 
 
@@ -22,28 +22,22 @@ var Main = React.createClass({
     },
 
   componentDidMount: function(){
-    this.get('/api/project')
+    this.get('/api/project').then((response) =>{
+      let state = this.state;
+      state.projects.push(...response.data.info)
+      this.setState(state)
+    })
   },
 
   get: function(route, data = {}){
-    axios.get(route,data)
-      .then((response) =>{
-        let state = this.state;
-        state.projects.push(...response.data.info)
-        this.setState(state)
-      })
+    return axios.get(route,data)
       .catch((error)=>{
         console.log(error)
       })
   },
 
    post: function(route, data = {}){ 
-    axios.post(route, data)
-      .then((response)=>{
-        let state = this.state;
-        state.projects.push(response.data.info)
-        this.setState(state) 
-      })
+    return axios.post(route, data)
       .catch((error)=>{
         console.log(error)
       })
@@ -58,7 +52,7 @@ render: function() {
   console.log(projectsDisplay)
   
   if(this.state.projectSelected) {
-    return <singleView projectView = {this.state.projectSelected}/>
+    return <SingleView project = {this.state.projectSelected} get={this.get} post ={this.post}/>
       
     
   } 
@@ -78,7 +72,15 @@ render: function() {
             </ol>
 
           <div>
-            <button onClick = { () => {this.post('/', {name:'example2'})}}>
+            <button onClick = { () => {
+          this.post('/', {name:'example2'})
+            .then((response)=>{
+              let state = this.state;
+              state.projects.push(response.data.info)
+              this.setState(state) 
+              })
+                }
+          }>
               Test me!
             </button>
           </div>

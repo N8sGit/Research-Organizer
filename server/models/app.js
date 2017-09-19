@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const db = require('./db')
 const Project = require('./models/Project')
-
+const Paper = require('./models/Paper')
 
 
 const app = express()
@@ -53,6 +53,25 @@ app.post('/api/project', function(req,res){
   let package = req.body
   res.send(package)
 })
+
+app.get('/api/paper', function(req,res){
+  let package = req.body;
+  res.send(package)
+})
+
+app.post('/api/paper', function(req,res){
+  Paper.create(req.body)
+  .then(function(create){
+    res.json({
+      message: "Created successfully",
+      info: created 
+    })
+  })
+})
+
+
+
+
 
 app.listen(3000, function () {
   console.log('listening on port 3000!')
