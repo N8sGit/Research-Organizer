@@ -61,7 +61,7 @@ app.get('/api/paper', function(req,res){
 
 app.post('/api/paper', function(req,res){
   Paper.create(req.body)
-  .then(function(create){
+  .then(function(created){
     res.json({
       message: "Created successfully",
       info: created 
