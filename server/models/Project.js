@@ -6,15 +6,27 @@ var db = require('../db');
 var Project = db.define('Project', {
   name: {
     type: Sequelize.STRING
-    }
+    },
+
+  projectRefs: {
+    type: Sequelize.ARRAY(Sequelize.STRING)
+  },
+
+  note: {
+    type: Sequelize.TEXT
+
+  }
+
+
+
 });
 
-Project.hasMany(Paper, {as: 'parent'});
+// Project.hasMany(Paper, {as: 'referenceArticles'});
 
 
 Project.sync({force:true}).then(() => {
   return Project.create({
-    name:'initial test'
+    name:''
   });
 });
 
@@ -26,8 +38,4 @@ module.exports = Project;
 
 //   },
 
-//   note: {
-//     type: Sequelize.TEXT,
-//     defaultValue: '',
-
-//   },
+//   
