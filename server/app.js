@@ -62,6 +62,12 @@ app.get('/api/paper', function(req,res){
 app.post('/api/paper', function(req,res){
   Paper.create(req.body)
   .then(function(created){
+    console.log(created)
+    Project.findById(req.body.projectId)
+    .then(project =>{
+      project.paperIds.push(created.paper.id)
+    }).save()
+    
     res.json({
       message: "Created successfully",
       info: created 
@@ -70,6 +76,10 @@ app.post('/api/paper', function(req,res){
 })
 
 
+Project.findById(123).then(project => {
+  // project will be an instance of Project and stores the content of the table entry
+  // with id 123. if such an entry is not defined you will get null
+})
 
 
 

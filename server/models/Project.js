@@ -8,7 +8,7 @@ var Project = db.define('Project', {
     type: Sequelize.STRING
     },
 
-  projectRefs: {
+  paperIds: {
     type: Sequelize.ARRAY(Sequelize.STRING)
   },
 
@@ -24,7 +24,7 @@ var Project = db.define('Project', {
 // Project.hasMany(Paper, {as: 'referenceArticles'});
 
 
-Project.sync({force:true}).then(() => {
+Project.sync({force:false}).then(() => {
   return Project.create({
     name:''
   });

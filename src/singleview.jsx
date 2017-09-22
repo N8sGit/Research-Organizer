@@ -9,6 +9,7 @@ export default class SingleView extends React.Component {
    
      render() {
          console.log(this.props.project, 'project')
+         
          let paperDisplay = this.state.papers
        return (
        <div> 
@@ -18,8 +19,11 @@ export default class SingleView extends React.Component {
 
         <div id='paper-slider'>
             <button onClick = { () => {
-               this.props.post('/api/paper', {name:'new paper'})
+               this.props.post('/api/paper', { name: 'example', datePublished:'1997', url: 'www.example.com', 
+               abstract: 'blank', projectId: this.props.project.id, reference: 'John Stevenson, 2020'})
                 .then((response)=>{
+                    console.log(response, 'response')
+                    console.log(repsonse.data, 'data')
                         let state = this.state;
                         this.state.papers.push(response.data.info)
                         this.setState(state) 
