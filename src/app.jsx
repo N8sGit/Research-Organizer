@@ -29,6 +29,16 @@ var Main = React.createClass({
     })
   },
 
+  componentWillMount: function(){
+    this.goToMain = this.goToMain.bind(this);
+  },
+
+  goToMain : function(){
+    let state = this.state;
+    this.state.projectSelected = null
+    this.setState(state)
+  },
+
   get: function(route, data = {}){
     return axios.get(route,data)
       .catch((error)=>{
@@ -49,13 +59,9 @@ render: function() {
   
   let projectsDisplay = this.state.projects;
  
-  console.log(projectsDisplay)
-  
   if(this.state.projectSelected) {
-    return <SingleView project = {this.state.projectSelected} get={this.get} post ={this.post}/>
-      
-    
-  } 
+      return <SingleView project = {this.state.projectSelected} get={this.get} post ={this.post} goToMain = {this.goToMain}/>
+    } 
   else {
     return (
         <div>
@@ -107,7 +113,7 @@ render: function() {
           </div>
 
           </div>
-
+          
 
           </div>
           

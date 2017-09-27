@@ -61,25 +61,26 @@ app.get('/api/paper', function(req,res){
 
 app.post('/api/paper', function(req,res){
   Paper.create(req.body)
-  .then(function(created){
-    console.log(created)
+  .then(function(newPaper){
+    console.log(newPaper)
     Project.findById(req.body.projectId)
     .then(project =>{
-      project.paperIds.push(created.paper.id)
+      console.log(project, 'inner project')
+      project.paperIds.push(newPaper.id)
     }).save()
     
     res.json({
-      message: "Created successfully",
-      info: created 
+      message: "newPaper created successfully",
+      info: newPaper 
     })
   })
 })
 
 
-Project.findById(123).then(project => {
-  // project will be an instance of Project and stores the content of the table entry
-  // with id 123. if such an entry is not defined you will get null
-})
+// Project.findById(123).then(project => {
+//   // project will be an instance of Project and stores the content of the table entry
+//   // with id 123. if such an entry is not defined you will get null
+// })
 
 
 

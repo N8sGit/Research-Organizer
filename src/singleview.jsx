@@ -5,6 +5,16 @@ export default class SingleView extends React.Component {
             super(props)
             this.state = { papers: []}
         }
+
+        componentDidMount(){
+            this.get('/api/paper').then((response) =>{
+              let state = this.state;
+              state.papers.push(...response.data.info)
+              this.setState(state)
+            })
+          }
+
+
     
    
      render() {
@@ -23,7 +33,7 @@ export default class SingleView extends React.Component {
                abstract: 'blank', projectId: this.props.project.id, reference: 'John Stevenson, 2020'})
                 .then((response)=>{
                     console.log(response, 'response')
-                    console.log(repsonse.data, 'data')
+                    console.log(response.data, 'data')
                         let state = this.state;
                         this.state.papers.push(response.data.info)
                         this.setState(state) 
@@ -54,6 +64,12 @@ export default class SingleView extends React.Component {
 
         
         </div>
+            <div className='toMain' onClick={()=>{
+                    this.props.goToMain()
+                }
+            }> 
+                <p> Return to Projects </p>
+            </div>
     </div>
         )
      }
