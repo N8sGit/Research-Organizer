@@ -1,4 +1,5 @@
 import React from 'react'
+import Notes from './notes.jsx'
 
 export default class SingleView extends React.Component {
         constructor(props){
@@ -7,7 +8,7 @@ export default class SingleView extends React.Component {
         }
 
         componentDidMount(){
-            this.get('/api/paper').then((response) =>{
+            this.props.get('/api/paper').then((response) =>{
               let state = this.state;
               state.papers.push(...response.data.info)
               this.setState(state)
@@ -38,6 +39,7 @@ export default class SingleView extends React.Component {
                         this.state.papers.push(response.data.info)
                         this.setState(state) 
                     })
+                    console.log(this.state.papers, 'papers')
                 }
             }>
             Test me!
@@ -61,7 +63,10 @@ export default class SingleView extends React.Component {
             )
           }
           </div>
-
+          
+          <div id='notebox'>
+            <Notes post={this.props.post}/>
+          </div>
         
         </div>
             <div className='toMain' onClick={()=>{
