@@ -76,6 +76,20 @@ app.post('/api/paper', function(req,res){
   })
 })
 
+app.put('/api/project/:project_id', function(req,res){
+  Project.findById(req.params.project_id, function(err, project) {
+    if (err) res.send(err);
+
+      project.notes = req.body.notes; 
+      
+      project.save(function(err) {
+         if (err) res.send(err);
+        res.json({ message: 'Project updated!' });
+      
+      });
+  });
+})
+
 
 // Project.findById(123).then(project => {
 //   // project will be an instance of Project and stores the content of the table entry
