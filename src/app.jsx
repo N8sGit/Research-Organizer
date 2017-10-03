@@ -15,12 +15,6 @@ var Main = React.createClass({
     return {projects:[], papers:[]};
   },
 
-  getDefaultProps: function() {
-      return {
-    
-      }
-    },
-
   componentDidMount: function(){
     this.get('/api/project').then((response) =>{
       let state = this.state;
@@ -64,12 +58,12 @@ render: function() {
     } 
   else {
     return (
-        <div>
+<div>
           <div>
             <nav/>  
           </div>
           
-          <div>
+        <div>
           <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
             <ol>
               <ul> <p> To get started, simply click the start project button to add a project </p> </ul>
@@ -93,37 +87,33 @@ render: function() {
 
           <div className='mainDisplay'> 
           
-          <div>{projectsDisplay.map((project) =>{
+            <div>{
+                projectsDisplay.map((project) =>{
                   
-                  return (
-                    <div onClick={ () => {
-                      let state = this.state
-                      this.state.projectSelected = project 
-                      this.setState(state)
-                      } 
-                    }> 
-                      {
-                        project.name
-                      } 
+                    return (
+                      <div onClick={ () => {
+                        let state = this.state
+                        this.state.projectSelected = project 
+                        this.setState(state)
+                        } 
+                      }> 
+                        {
+                          project.name
+                        } 
                     </div>
                   )
-              }
-            )
-          }
-          </div>
-
-          </div>
-          
-
-          </div>
-          
-          <div>
-            <footer/> 
+              })
+            }
+            </div>
           </div>
       </div>
-    );
+           <div>
+              <footer/> 
+           </div>
+</div>
+        );
+      }
     }
-  }
 })
 
 ReactDOM.render(

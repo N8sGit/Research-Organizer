@@ -67,7 +67,8 @@ app.post('/api/paper', function(req,res){
     .then(project =>{
       console.log(project, 'inner project')
       project.paperIds.push(newPaper.id)
-    }).save()
+      newPaper.save()
+    })
     
     res.json({
       message: "newPaper created successfully",
@@ -84,7 +85,7 @@ app.put('/api/project/:project_id', function(req,res){
       
       project.save(function(err) {
          if (err) res.send(err);
-        res.json({ message: 'Project updated!' });
+        res.json({ project:project, message: 'Project updated!' });
       
       });
   });
