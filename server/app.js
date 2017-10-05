@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const db = require('./db')
 const Project = require('./models/Project')
 const Paper = require('./models/Paper')
+const arxiv = require('arxiv')
 
 
 const app = express()
@@ -47,8 +48,6 @@ app.post('/', function(req,res){
   })
 })
 
-// what is this app.post even doing at this point???
-
 app.post('/api/project', function(req,res){
   let package = req.body
   res.send(package)
@@ -91,11 +90,18 @@ app.put('/api/project/:project_id', function(req,res){
   });
 })
 
+let search_query = {
+    title: 'RNN',
+    author: 'William Chan'
+};
 
-// Project.findById(123).then(project => {
-//   // project will be an instance of Project and stores the content of the table entry
-//   // with id 123. if such an entry is not defined you will get null
-// })
+
+
+arxiv.search(search_query, function(err, results) {
+    console.log('Found ' + results.items.length + ' results out of ' + results.total);
+    console.log(results.items[0].title);
+    console.log(results.items[0].authors[0].name);
+});
 
 
 

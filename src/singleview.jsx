@@ -1,5 +1,6 @@
 import React from 'react'
 import Notes from './notes.jsx'
+import Search from './search.jsx'
 
 export default class SingleView extends React.Component {
         constructor(props){
@@ -66,6 +67,11 @@ export default class SingleView extends React.Component {
           
           <div id='notebox'>
             <Notes post={this.props.post}/>
+          </div>
+
+
+          <div id='search'>
+            <Search/>
           </div>
         
         </div>

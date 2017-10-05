@@ -34,10 +34,3 @@ Project.sync({force:true}).then(() => {
 
 module.exports = Project;
 
-
-// projectRefs : {
-//     type: Sequelize.STRING,
-
-//   },
-
-//   
