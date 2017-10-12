@@ -20,9 +20,7 @@ export default class SingleView extends React.Component {
     
    
      render() {
-         console.log(this.props.project, 'project')
-         
-         let paperDisplay = this.state.papers
+          let paperDisplay = this.state.papers
        return (
        <div> 
          <div> 
@@ -66,7 +64,7 @@ export default class SingleView extends React.Component {
           </div>
           
           <div id='notebox'>
-            <Notes post={this.props.post}/>
+            <Notes project ={this.props.project} post = {this.props.post}/>
           </div>
 
 

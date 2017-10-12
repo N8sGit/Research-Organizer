@@ -77,15 +77,17 @@ app.post('/api/paper', function(req,res){
 })
 
 app.put('/api/project/:project_id', function(req,res){
+  console.log('very top')
   Project.findById(req.params.project_id, function(err, project) {
+    console.log('top of route')
     if (err) res.send(err);
-
+  
       project.notes = req.body.notes; 
       
       project.save(function(err) {
+        console.log('BACKEND HIT')
          if (err) res.send(err);
         res.json({ project:project, message: 'Project updated!' });
-      
       });
   });
 })
