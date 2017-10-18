@@ -5,11 +5,13 @@ var db = require('../db');
 
 var Project = db.define('Project', {
   name: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    defaultValue:''
     },
 
-  projectRefs: {
-    type: Sequelize.ARRAY(Sequelize.STRING)
+  paperIds: {
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: []
   },
 
   note: {
@@ -32,10 +34,3 @@ Project.sync({force:true}).then(() => {
 
 module.exports = Project;
 
-
-// projectRefs : {
-//     type: Sequelize.STRING,
-
-//   },
-
-//   
