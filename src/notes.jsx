@@ -4,11 +4,11 @@ import axios from 'axios'
 export default class Notes extends React.Component{
     constructor(props){
         super(props)
-        this.state = { notes: []}
+        this.state = { notes:[], note: ''}
     }
 
     onChange(event){
-        this.setState({notes:event.target.value})
+        this.setState({note:event.target.value})
     }
     
      render(){
@@ -22,11 +22,12 @@ export default class Notes extends React.Component{
                 <button type='button'  onClick={ () =>{
                     console.log('OUTSIDE')
                     
-                    axios.put(`/api/project/${this.props.project.id}`, {notes: this.state.notes})
+                    axios.put(`/api/project/${this.props.project.id}`, {note: this.state.note})
                     .then((response)=>{
-                        console.log(Array.isArray(response.data.info), 'isarray')
+                        console.log(response)
                         let state = this.state;
-                        state.notes.push(...response.data.info)
+                        console.log(state.note)
+                        state.notes.push(state.note)
                         this.setState(state)
                     })
                 }}>

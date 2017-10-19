@@ -34,7 +34,6 @@ app.get('/api/project', function(req,res){
       info: content 
     });
   })
-  
 });
 
 app.post('/', function(req,res){
@@ -61,10 +60,8 @@ app.get('/api/paper', function(req,res){
 app.post('/api/paper', function(req,res){
   Paper.create(req.body)
   .then(function(newPaper){
-    console.log(newPaper)
     Project.findById(req.body.projectId)
     .then(project =>{
-      console.log(project, 'inner project')
       project.paperIds.push(newPaper.id)
       newPaper.save()
     })
@@ -76,21 +73,24 @@ app.post('/api/paper', function(req,res){
   })
 })
 
-app.put('/api/project/:project_id', function(req,res){
-  console.log('very top')
-  Project.findById(req.params.project_id, function(err, project) {
-    console.log('top of route')
-    if (err) res.send(err);
-  
-      project.notes = req.body.notes; 
-      
-      project.save(function(err) {
-        console.log('BACKEND HIT')
-         if (err) res.send(err);
-        res.json({ project:project, message: 'Project updated!' });
-      });
-  });
+app.put('/api/project/:projectId', function(req,res){
+  Project.findById(req.params.projectId)
+    .then(project =>{
+      console.log(req.body, 'reqbody')
+        console.log('entered promise')
+        console.log(req.body.notes, 'notes?')
+        console.log(project, 'project')
+      project.note = req.body.notes;
+        console.log(project.notes, 'project notes?')
+      project.save()
+      .then(result =>{
+        res.json({project:project, message:'project updated'})
+      })
+        }).catch(error =>{
+          console.log(error)
+        })
 })
+
 
 let search_query = {
     title: 'RNN',
