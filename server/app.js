@@ -34,7 +34,6 @@ app.get('/api/project', function(req,res){
       info: content 
     });
   })
-  
 });
 
 app.post('/', function(req,res){
@@ -61,10 +60,8 @@ app.get('/api/paper', function(req,res){
 app.post('/api/paper', function(req,res){
   Paper.create(req.body)
   .then(function(newPaper){
-    console.log(newPaper)
     Project.findById(req.body.projectId)
     .then(project =>{
-      console.log(project, 'inner project')
       project.paperIds.push(newPaper.id)
       newPaper.save()
     })
@@ -76,36 +73,38 @@ app.post('/api/paper', function(req,res){
   })
 })
 
-app.put('/api/project/:project_id', function(req,res){
-  console.log('very top')
-  Project.findById(req.params.project_id, function(err, project) {
-    console.log('top of route')
-    if (err) res.send(err);
-  
-      project.notes = req.body.notes; 
-      
-      project.save(function(err) {
-        console.log('BACKEND HIT')
-         if (err) res.send(err);
-        res.json({ project:project, message: 'Project updated!' });
-      });
-  });
+app.put('/api/project/:projectId', function(req,res){
+  Project.findById(req.params.projectId)
+    .then(project =>{
+      project.note = req.body.note;
+        console.log(project.note, 'project notes?')
+      project.save()
+      .then(result =>{
+        res.json({project:project, message:'project updated'})
+      })
+        }).catch(error =>{
+          console.log(error)
+        })
 })
 
 let search_query = {
-    title: 'RNN',
-    author: 'William Chan'
+  title: '',
+  author: ''
 };
 
-
-
-arxiv.search(search_query, function(err, results) {
+app.post('/api/search', function(req,res){
+  search_query['title'] = req.body.title
+  search_query['author'] = req.body.author
+  
+  arxiv.search(search_query, function(err, results) {
+    console.log(search_query, 'query')
+    console.log(results)
     console.log('Found ' + results.items.length + ' results out of ' + results.total);
-    console.log(results.items[0].title);
+    console.log(results.items[0]);
     console.log(results.items[0].authors[0].name);
-});
-
-
+    res.json(results)
+  });
+})
 
 app.listen(3000, function () {
   console.log('listening on port 3000!')

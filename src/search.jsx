@@ -8,25 +8,39 @@ export default class Searchview extends React.Component{
             authorValue: '',
             titleValue: ''
         };
+        this.updateInputValue.bind(this)
     }
   
     updateInputValue(event, property){
-        this.setState({
-            property: event.target.value
-        })
+        let state = this.state
+         state[property] = event.target.value
+         this.setState(state)
+         console.log(state)
     }
 
     render(){
+       
         return (
         <div>
             <form>
-                <input value={this.state.authorValue} onChange= {event => this.updateInputValue(event, this.state['authorValue'])}>
+                <input value={this.state.authorValue}  onChange= {event => this.updateInputValue(event, 'authorValue')}>
                     Search by author 
                 </input>
-                <input value={this.state.titleValue} onChange = {event => this.updateInputValue(event, this.state['titleValue'])}>
+                <input value={this.state.titleValue} onChange = {event => this.updateInputValue(event, 'titleValue')}>
                     Search by title
                 </input>
 
+                <button type='button' onClick = { () => {
+               this.props.post('/api/search', {  author:this.state.authorValue, title: this.state.titleValue})
+                    .then((response)=>{
+                        let state = this.state;
+                        this.setState(state)
+                        console.log(response, 'response') 
+                    })
+                }
+            }>
+                Search!
+                </button>
             </form>
         </div> 
         )
@@ -34,26 +48,4 @@ export default class Searchview extends React.Component{
 } 
 
 
-// class MyComponent extends React.Component {
-//     constructor(props) {
-//       super(props);
-//       this.state = {
-//         inputValue: ''
-//       };
-//     }
-  
-//     render: function() {
-//       return (
-//         //...
-//         <input value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)}/>
-//         //...
-//       );
-//     },
-  
-//     updateInputValue: function(evt) {
-//       this.setState({
-//         inputValue: evt.target.value
-//       });
-//     }
-//   });
   
