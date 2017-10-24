@@ -69,7 +69,7 @@ export default class SingleView extends React.Component {
 
 
           <div id='search'>
-            <Search/>
+            <Search post={this.props.post} />
           </div>
         
         </div>

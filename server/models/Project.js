@@ -16,7 +16,6 @@ var Project = db.define('Project', {
 
   note: {
     type: Sequelize.TEXT
-
   }
 
 

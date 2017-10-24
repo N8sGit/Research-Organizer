@@ -76,12 +76,8 @@ app.post('/api/paper', function(req,res){
 app.put('/api/project/:projectId', function(req,res){
   Project.findById(req.params.projectId)
     .then(project =>{
-      console.log(req.body, 'reqbody')
-        console.log('entered promise')
-        console.log(req.body.notes, 'notes?')
-        console.log(project, 'project')
-      project.note = req.body.notes;
-        console.log(project.notes, 'project notes?')
+      project.note = req.body.note;
+        console.log(project.note, 'project notes?')
       project.save()
       .then(result =>{
         res.json({project:project, message:'project updated'})
@@ -91,21 +87,23 @@ app.put('/api/project/:projectId', function(req,res){
         })
 })
 
-
 let search_query = {
-    title: 'RNN',
-    author: 'William Chan'
+  title: '',
+  author: ''
 };
 
-
-
-arxiv.search(search_query, function(err, results) {
+app.post('/api/search', function(req,res){
+  search_query['title'] = req.body.title
+  search_query['author'] = req.body.author
+  
+  arxiv.search(search_query, function(err, results) {
+    console.log(results)
     console.log('Found ' + results.items.length + ' results out of ' + results.total);
-    console.log(results.items[0].title);
+    console.log(results.items[0]);
     console.log(results.items[0].authors[0].name);
-});
-
-
+    res.json(results)
+  });
+})
 
 app.listen(3000, function () {
   console.log('listening on port 3000!')
