@@ -97,6 +97,7 @@ app.post('/api/search', function(req,res){
   search_query['author'] = req.body.author
   
   arxiv.search(search_query, function(err, results) {
+    console.log(search_query, 'query')
     console.log(results)
     console.log('Found ' + results.items.length + ' results out of ' + results.total);
     console.log(results.items[0]);

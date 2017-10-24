@@ -12,7 +12,7 @@ import axios from 'axios'
 var Main = React.createClass({
 
   getInitialState: function() {
-    return {projects:[], papers:[]};
+    return {projects:[], papers:[], inputValue:''};
   },
 
   componentDidMount: function(){
@@ -47,6 +47,11 @@ var Main = React.createClass({
       })
   },
 
+  updateInputValue: function(event){
+    this.setState({
+      inputValue: event.target.value
+    })
+  },
    
 
 render: function() {
@@ -72,8 +77,13 @@ render: function() {
             </ol>
 
           <div>
+            <form>
+            <input value={this.state.inputValue} placeholder='name for project' onChange={event => this.updateInputValue(event)}>
+
+            </input>
+
             <button onClick = { () => {
-          this.post('/', {name:'example2'})
+          this.post('/', {name: this.state.inputValue})
             .then((response)=>{
               let state = this.state;
               state.projects.push(response.data.info)
@@ -81,8 +91,10 @@ render: function() {
               })
                 }
           }>
-              Test me!
+              Create Project
             </button>
+            
+            </form>
           </div>
 
           <div className='mainDisplay'> 

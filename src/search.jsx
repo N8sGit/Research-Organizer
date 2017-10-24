@@ -19,8 +19,7 @@ export default class Searchview extends React.Component{
     }
 
     render(){
-        console.log(this.state.authorValue, 'why this not showing up')
-        console.log(this.state.titleValue)
+       
         return (
         <div>
             <form>
@@ -31,7 +30,7 @@ export default class Searchview extends React.Component{
                     Search by title
                 </input>
 
-                <button onClick = { () => {
+                <button type='button' onClick = { () => {
                this.props.post('/api/search', {  author:this.state.authorValue, title: this.state.titleValue})
                     .then((response)=>{
                         let state = this.state;
