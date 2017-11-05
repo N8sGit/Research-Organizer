@@ -52,9 +52,27 @@ app.post('/api/project', function(req,res){
   res.send(package)
 })
 
-app.get('/api/paper', function(req,res){
-  let package = req.body;
-  res.send(package)
+app.get('/api/paper/:projectId', function(req,res){
+  console.log('routeHit')
+  Project.findById(req.params.projectId)
+  .then(project =>{
+    let arrIds = project.paperIds.split(',')
+    arrIds = arrIds.slice(0, arrIds.length-1)
+    console.log(arrIds, 'IDZZZ')
+
+    Paper.findAll({
+      where:{
+        id: arrIds
+      }
+    })
+    .then(papers =>{
+      console.log(papers, 'papses')
+      res.json({
+        message:'These are the papera associated with this project',
+        info: papers
+      })
+    })
+  })
 })
 
 app.post('/api/paper', function(req,res){
@@ -62,8 +80,14 @@ app.post('/api/paper', function(req,res){
   .then(function(newPaper){
     Project.findById(req.body.projectId)
     .then(project =>{
-      project.paperIds.push(newPaper.id)
-      newPaper.save()
+
+      project.paperIds += newPaper.id.toString() + ','     
+      
+      project.save()
+        .catch(error =>{
+          console.log(error)
+        })
+      console.log(project.paperIds)
     })
     
     res.json({
@@ -77,7 +101,6 @@ app.put('/api/project/:projectId', function(req,res){
   Project.findById(req.params.projectId)
     .then(project =>{
       project.note = req.body.note;
-        console.log(project.note, 'project notes?')
       project.save()
       .then(result =>{
         res.json({project:project, message:'project updated'})

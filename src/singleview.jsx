@@ -24,7 +24,7 @@ export default class SingleView extends React.Component {
 
 
           <div id='search'>
-            <Search post={this.props.post} get ={this.props.get} />
+            <Search project={this.props.project} post={this.props.post} get ={this.props.get} />
           </div>
         
         </div>

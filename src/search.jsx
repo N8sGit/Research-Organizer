@@ -21,14 +21,18 @@ export default class Searchview extends React.Component{
     }
 
     componentDidMount(){
-            this.props.get('/api/paper').then((response) =>{
+            this.props.get(`/api/paper/${this.props.project.id}`).then((response) =>{
+                console.log(response, 'response')
               let state = this.state;
               state.papers.push(...response.data.info)
               this.setState(state)
+              console.log(state.papers)
             })
           }
 
     render(){
+        console.log(this.props.project, "PROJECT")
+        console.log(this.state.papers, 'paps')
        let paperDisplay = this.state.papers
        let resultsDisplay = this.state.searchResults
         return (
@@ -65,11 +69,9 @@ export default class Searchview extends React.Component{
                 <button type='button' onClick = { () => {
                this.props.post('/api/search', {  author:this.state.authorValue, title: this.state.titleValue})
                     .then((response)=>{
-                        console.log(Array.isArray(response.data.items))
                         let state = this.state;
                         state.searchResults = [...response.data.items] 
                         this.setState(state)
-                        console.log(state.searchResults, 'response') 
                     })
                 }
             }>
@@ -89,7 +91,7 @@ export default class Searchview extends React.Component{
                         <p>{result.summary}</p> 
                         <form> 
                             <button type='button' onClick= {()=>{
-                                this.props.post('/api/paper', {name: result.title, projectId: this.props.projectId, datePublished: result.published, url: result.id,
+                                this.props.post('/api/paper', {name: result.title, projectId: this.props.project.id, datePublished: result.published, url: result.id,
                                  abstract: result.summary})
                                  .then((response)=>{
                                      let state = this.state
@@ -117,17 +119,3 @@ export default class Searchview extends React.Component{
 
   
 
-{/* <button onClick = { () => {
-               this.props.post('/api/paper', { name: 'example', datePublished:'1997', url: 'www.example.com', 
-               abstract: 'blank', projectId: this.props.project.id, reference: 'John Stevenson, 2020'})
-                .then((response)=>{
-                    console.log(response, 'response')
-                    console.log(response.data, 'data')
-                        let state = this.state;
-                        this.state.papers.push(response.data.info)
-                        this.setState(state) 
-                    })
-                    console.log(this.state.papers, 'papers')
-                }
-            }>
-            Test me! */}
