@@ -119,9 +119,6 @@ render: function() {
             </div>
           </div>
       </div>
-           <div>
-              <footer/> 
-           </div>
 </div>
         );
       }

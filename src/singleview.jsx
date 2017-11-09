@@ -34,7 +34,7 @@ export default class SingleView extends React.Component {
             }> 
                 <p> Return to Projects </p>
             </div>
-    </div>
+     </div>
         )
      }
    
