@@ -58,7 +58,6 @@ app.get('/api/paper/:projectId', function(req,res){
   .then(project =>{
     let arrIds = project.paperIds.split(',')
     arrIds = arrIds.slice(0, arrIds.length-1)
-    console.log(arrIds, 'IDZZZ')
 
     Paper.findAll({
       where:{
@@ -66,7 +65,6 @@ app.get('/api/paper/:projectId', function(req,res){
       }
     })
     .then(papers =>{
-      console.log(papers, 'papses')
       res.json({
         message:'These are the papera associated with this project',
         info: papers

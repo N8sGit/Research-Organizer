@@ -1,5 +1,5 @@
 import React from "react"
-import paperView from './paperView.jsx'
+import PaperView from './paperView.jsx'
 
 
 export default class Searchview extends React.Component{
@@ -10,8 +10,7 @@ export default class Searchview extends React.Component{
             titleValue: '',
             searchResults: [],
             papers: [],
-            paperSelected: undefined,
-            dropdown: false
+            paperSelected: undefined
         };
         this.updateInputValue.bind(this)
     }
@@ -40,24 +39,16 @@ export default class Searchview extends React.Component{
         <div>
 
         <div>{paperDisplay.map((paper) =>{
-                  
                   return (
                     <div onClick={ () => {
                       let state = this.state
-                      this.state.paperSelected = paper 
+                      state.paperSelected = paper
+                      paper.dropdown = !paper.dropdown
                       this.setState(state)
                       } 
                     }> 
-                      {
-                        <div onClick = {()=>{
-                            this.state.dropdown = !this.state.dropdown
-                            console.log(this.state.dropdown)
-                        }}>
-                            {paper.name}
-                            {this.dropDown ? <paperView paper={this.state.paperSelected}> </paperView> : null}
-                        </div>
-
-                      } 
+                        {paper.name}
+                        {paper.dropdown ? <PaperView paper={this.state.paperSelected}></PaperView> : console.log('hello')}
                     </div>
                   )
               }
@@ -78,6 +69,7 @@ export default class Searchview extends React.Component{
                 <button type='button' onClick = { () => {
                this.props.post('/api/search', {  author:this.state.authorValue, title: this.state.titleValue})
                     .then((response)=>{
+                        if(!this.state.authorValue && !this.state.titleValue) return 
                         let state = this.state;
                         if(!response.data.items){state.searchResults.push('Sorry, no results found!')}
                         else state.searchResults = [...response.data.items] 
@@ -89,9 +81,20 @@ export default class Searchview extends React.Component{
                 </button>
             </form>
 
+            <form>
+                <button type='button' onClick ={() =>{
+                        let state = this.state
+                        state.searchResults = []
+                        this.setState(state)
+                    }
+                }> 
+                Clear Results
+                </button>
+            </form>
+
             <div id='resultsDisplay'>
                {
-                this.state.searchResults.length && typeof this.state.searchResults[0] === 'string' && this.state.titleValue ?
+                this.state.searchResults.length && typeof this.state.searchResults[0] === 'string' && this.state.titleValue && this.state.authorValue ?
                 <p>{this.state.searchResults[0]}</p>:
                 
                 resultsDisplay.map((result)=>{
