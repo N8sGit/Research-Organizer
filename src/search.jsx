@@ -40,6 +40,7 @@ export default class Searchview extends React.Component{
 
         <div>{paperDisplay.map((paper) =>{
                   return (
+                    <div>
                     <div onClick={ () => {
                       let state = this.state
                       state.paperSelected = paper
@@ -48,7 +49,9 @@ export default class Searchview extends React.Component{
                       } 
                     }> 
                         {paper.name}
-                        {paper.dropdown ? <PaperView paper={this.state.paperSelected}></PaperView> : console.log('hello')}
+                        
+                    </div>
+                        <div>{paper.dropdown ? <PaperView paper={this.state.paperSelected}></PaperView> : console.log('')}</div>
                     </div>
                   )
               }

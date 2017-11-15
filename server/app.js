@@ -108,6 +108,19 @@ app.put('/api/project/:projectId', function(req,res){
         })
 })
 
+app.put('/api/paper/:paperId', function(req,res){
+  Paper.findById(req.params.paperId)
+    .then(paper =>{
+      paper.note = req.body.note;
+      paper.save()
+      .then(result =>{
+        res.json({paper:paper, message:'paper updated'})
+      })
+        }).catch(error =>{
+          console.log(error)
+        })
+})
+
 let search_query = {
   title: '',
   author: ''
@@ -118,12 +131,12 @@ app.post('/api/search', function(req,res){
   search_query['author'] = req.body.author
   
   arxiv.search(search_query, function(err, results) {
-    // console.log(search_query, 'query')
-    // console.log(results)
-    // console.log('Found ' + results.items.length + ' results out of ' + results.total);
-    // console.log(results.items[0]);
-    // console.log(results.items[0].authors[0].name);
-    if(!results.items.length) res.json({message:'Sorry, no results were found. Try modifying your query'})
+    console.log(search_query, 'query')
+    console.log(results)
+    console.log('Found ' + results.items.length + ' results out of ' + results.total);
+    console.log(results.items[0]);
+    console.log(results.items[0].authors[0].name);
+    if(!results.items.length) res.json({message:'Sorry, no results were found. Try changing your query'})
     else res.json(results)
   });
 })

@@ -19,7 +19,7 @@ export default class SingleView extends React.Component {
           
           
           <div id='notebox'>
-            <Notes project ={this.props.project} post = {this.props.post}/>
+            <Notes project ={this.props.project}/>
           </div>
 
 

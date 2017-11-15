@@ -23,9 +23,8 @@ var Paper = db.define('Paper', {
     type: Sequelize.TEXT
   },
 
-  reference : {
-    type: Sequelize.STRING
-
+  note: {
+    type: Sequelize.TEXT
   }
 
 });

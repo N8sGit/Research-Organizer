@@ -4,7 +4,6 @@ var $ = require('jquery');
 import rd3 from 'react-d3';
 import Home from './home.jsx'
 import Footer from './footer.jsx'
-import Nav from './navbar.jsx'
 import SingleView from './singleview.jsx'
 import axios from 'axios'
 
@@ -69,11 +68,11 @@ render: function() {
           </div>
           
         <div>
-          <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
+          <h1> Welcome to Research Organizer, where the knowledge you need is always at hand </h1>
             <ol>
               <ul> <p> To get started, simply click the start project button to add a project </p> </ul>
               <ul> <p> Search and save articles using the archive search api </p> </ul>
-              <ul> <p> Collect papers to save to the project folders. </p> </ul>
+              <ul> <p> Collect papers to save to the project folders </p> </ul>
             </ol>
 
           <div>
