@@ -5,13 +5,30 @@ import Search from './search.jsx'
 export default class SingleView extends React.Component {
        constructor(props){
           super(props)
+          this.state = {
+            paperCount: 0,
+            authorCount:0
+          }
        }
+       updateCount(){
+        let state = this.state  
+        state.paperCount++
+        this.setState(state)
+       }
+
+       setCount(num){
+          let state = this.state
+          state.paperCount = num
+          this.setState(state)
+       }
+
        
   render() {
        return (
        <div> 
          <div> 
                <p> {this.props.project.name} </p>
+               <p> {this.state.paperCount + ' projects saved'}</p>
          </div>
 
         <div id='paper-slider'>
@@ -24,7 +41,7 @@ export default class SingleView extends React.Component {
 
 
           <div id='search'>
-            <Search project={this.props.project} post={this.props.post} get ={this.props.get} />
+            <Search project={this.props.project} setCount ={this.setCount.bind(this)} updateParentState={this.updateCount.bind(this)} post={this.props.post} get ={this.props.get} />
           </div>
         
         </div>

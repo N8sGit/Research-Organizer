@@ -1,5 +1,6 @@
 import React from "react"
 import PaperView from './paperView.jsx'
+import axios from 'axios'
 
 
 export default class Searchview extends React.Component{
@@ -10,7 +11,8 @@ export default class Searchview extends React.Component{
             titleValue: '',
             searchResults: [],
             papers: [],
-            paperSelected: undefined
+            paperSelected: undefined,
+            emptyResponse: ''
         };
         this.updateInputValue.bind(this)
     }
@@ -27,9 +29,14 @@ export default class Searchview extends React.Component{
                 console.log(response, 'response')
               let state = this.state;
               state.papers.push(...response.data.info)
+              this.props.setCount(state.papers.length)
               this.setState(state)
             })
           }
+
+    componentWillUnmount(){
+        this.props.setCount(this.state.papers.length)
+    }
 
     render(){
        
@@ -40,7 +47,7 @@ export default class Searchview extends React.Component{
 
         <div>{paperDisplay.map((paper) =>{
                   return (
-                    <div>
+                <div>
                     <div onClick={ () => {
                       let state = this.state
                       state.paperSelected = paper
@@ -52,7 +59,16 @@ export default class Searchview extends React.Component{
                         
                     </div>
                         <div>{paper.dropdown ? <PaperView paper={this.state.paperSelected}></PaperView> : console.log('')}</div>
-                    </div>
+                    
+                        <form> 
+                            <button type='button' onClick= {()=>{
+                                
+                            }
+                        }> 
+                                Remove
+                            </button>
+                        </form>   
+                </div>
                   )
               }
             )
@@ -74,8 +90,9 @@ export default class Searchview extends React.Component{
                     .then((response)=>{
                         if(!this.state.authorValue && !this.state.titleValue) return 
                         let state = this.state;
-                        if(!response.data.items){state.searchResults.push('Sorry, no results found!')}
-                        else state.searchResults = [...response.data.items] 
+                        console.log(response, 'resposnds')
+                        if(!response) state.emptyResponse = 'No results found.' 
+                        else state.searchResults = [...response.data.items]
                         this.setState(state)
                     })
                 }
@@ -97,8 +114,8 @@ export default class Searchview extends React.Component{
 
             <div id='resultsDisplay'>
                {
-                this.state.searchResults.length && typeof this.state.searchResults[0] === 'string' && this.state.titleValue && this.state.authorValue ?
-                <p>{this.state.searchResults[0]}</p>:
+                !this.state.searchResults.length && this.state.titleValue && this.state.authorValue ?
+                <p>{this.state.emptyResponse}</p>:
                 
                 resultsDisplay.map((result)=>{
                     return(
@@ -113,12 +130,19 @@ export default class Searchview extends React.Component{
                                 this.props.post('/api/paper', {name: result.title, projectId: this.props.project.id, datePublished: result.published, url: result.id,
                                  abstract: result.summary})
                                  .then((response)=>{
-                                     let state = this.state
-                                     this.state.papers.push(response.data.info)
-                                     this.setState(state)
-                                 })
+                                    let state = this.state
+                                    let alreadySaved = state.papers.some(function(value){
+                                         return value.name === result.title
+                                        })
+                                    if(alreadySaved) return
+                                    state.papers.push(response.data.info)
+                                    this.setState(state)
+                                    this.props.updateParentState()
+                                })
                              }
                             }> 
+
+                                    
                                 Save
                             </button>
                         </form>   
