@@ -10,9 +10,10 @@ export default class SingleView extends React.Component {
             authorCount:0
           }
        }
-       updateCount(){
+       updateCount(direction){
         let state = this.state  
-        state.paperCount++
+        if(direction ==='+') state.paperCount++
+        if(direction ==='-') state.paperCount--
         this.setState(state)
        }
 
@@ -41,7 +42,8 @@ export default class SingleView extends React.Component {
 
 
           <div id='search'>
-            <Search project={this.props.project} setCount ={this.setCount.bind(this)} updateParentState={this.updateCount.bind(this)} post={this.props.post} get ={this.props.get} />
+            <Search project={this.props.project} setCount ={this.setCount.bind(this)} updateParentState={this.updateCount.bind(this)} 
+            post={this.props.post} get ={this.props.get} />
           </div>
         
         </div>

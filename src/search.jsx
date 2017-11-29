@@ -45,7 +45,7 @@ export default class Searchview extends React.Component{
         return (
         <div>
 
-        <div>{paperDisplay.map((paper) =>{
+        <div>{paperDisplay.map((paper, index) =>{
                   return (
                 <div>
                     <div onClick={ () => {
@@ -62,7 +62,10 @@ export default class Searchview extends React.Component{
                     
                         <form> 
                             <button type='button' onClick= {()=>{
-                                
+                                let i = index
+                                paperDisplay.splice(i,1)
+                                this.setState(this.state)
+                                this.props.updateParentState('-')
                             }
                         }> 
                                 Remove
@@ -137,7 +140,7 @@ export default class Searchview extends React.Component{
                                     if(alreadySaved) return
                                     state.papers.push(response.data.info)
                                     this.setState(state)
-                                    this.props.updateParentState()
+                                    this.props.updateParentState('+')
                                 })
                              }
                             }> 
