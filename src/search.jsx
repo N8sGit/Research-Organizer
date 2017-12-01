@@ -1,5 +1,6 @@
 import React from "react"
 import PaperView from './paperView.jsx'
+import SearchResults from './searchResults.jsx'
 import axios from 'axios'
 
 
@@ -7,8 +8,8 @@ export default class Searchview extends React.Component{
     constructor(props){
         super(props)
         this.state ={
-            authorValue: '',
-            titleValue: '',
+            authorValue: 'john smith',
+            titleValue: 'computer science',
             searchResults: [],
             papers: [],
             paperSelected: undefined,
@@ -21,6 +22,13 @@ export default class Searchview extends React.Component{
         let state = this.state
          state[property] = event.target.value
          this.setState(state)
+    }
+
+    put(route, data={}){
+        return axios.put(route, data)
+            .catch((error)=>{
+                console.log(error)
+            }) 
     }
 
 
@@ -39,8 +47,8 @@ export default class Searchview extends React.Component{
     }
 
     render(){
-       
        let paperDisplay = this.state.papers
+       console.log(paperDisplay)
        let resultsDisplay = this.state.searchResults
         return (
         <div>
@@ -62,10 +70,12 @@ export default class Searchview extends React.Component{
                     
                         <form> 
                             <button type='button' onClick= {()=>{
+                                console.log(this.props.project.id, 'prjejti id')
                                 let i = index
                                 paperDisplay.splice(i,1)
                                 this.setState(this.state)
                                 this.props.updateParentState('-')
+                                this.put(`/api/project/remove/${this.props.project.id}`, {paperId: paper.id})
                             }
                         }> 
                                 Remove
