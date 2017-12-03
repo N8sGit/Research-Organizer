@@ -1,6 +1,6 @@
 import React from "react"
 import PaperView from './paperView.jsx'
-import SearchResults from './searchResults.jsx'
+import SearchDisplay from './searchDisplay.jsx'
 import axios from 'axios'
 
 
@@ -50,6 +50,7 @@ export default class Searchview extends React.Component{
        let paperDisplay = this.state.papers
        console.log(paperDisplay)
        let resultsDisplay = this.state.searchResults
+       console.log(this.state.searchResults, 'search results')
         return (
         <div>
 
@@ -104,7 +105,9 @@ export default class Searchview extends React.Component{
                         if(!this.state.authorValue && !this.state.titleValue) return 
                         let state = this.state;
                         console.log(response, 'resposnds')
-                        if(!response) state.emptyResponse = 'No results found.' 
+                        if(!response) {state.emptyResponse = 'No results found.'
+                            this.setState(state)    
+                        }
                         else state.searchResults = [...response.data.items]
                         this.setState(state)
                     })
@@ -126,45 +129,12 @@ export default class Searchview extends React.Component{
             </form>
 
             <div id='resultsDisplay'>
-               {
-                !this.state.searchResults.length && this.state.titleValue && this.state.authorValue ?
-                <p>{this.state.emptyResponse}</p>:
+                {
+                    !this.state.searchResults.length && this.state.titleValue && this.state.authorValue ?
+                    <p>{this.state.emptyResponse}</p>:
                 
-                resultsDisplay.map((result)=>{
-                    return(
-                     <div class ='searchResultCard'>
-                        <ul>
-                            <li> Title: {result.title} </li>
-                            <li>  <a href={result.id}> Link to abstract  </a></li>
-                        </ul>
-                        <p>{result.summary}</p> 
-                        <form> 
-                            <button type='button' onClick= {()=>{
-                                this.props.post('/api/paper', {name: result.title, projectId: this.props.project.id, datePublished: result.published, url: result.id,
-                                 abstract: result.summary})
-                                 .then((response)=>{
-                                    let state = this.state
-                                    let alreadySaved = state.papers.some(function(value){
-                                         return value.name === result.title
-                                        })
-                                    if(alreadySaved) return
-                                    state.papers.push(response.data.info)
-                                    this.setState(state)
-                                    this.props.updateParentState('+')
-                                })
-                             }
-                            }> 
-
-                                    
-                                Save
-                            </button>
-                        </form>   
-                    </div>
-                    )
-                })
-
-               } 
-            
+                    <SearchDisplay resultsDisplay={this.state.searchResults} />
+                } 
             </div>
         
         </div> 
