@@ -3,7 +3,6 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 import rd3 from 'react-d3';
 import Home from './home.jsx'
-import Footer from './footer.jsx'
 import SingleView from './singleview.jsx'
 import axios from 'axios'
 

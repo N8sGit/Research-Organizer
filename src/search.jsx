@@ -102,14 +102,18 @@ export default class Searchview extends React.Component{
                 <button type='button' onClick = { () => {
                this.props.post('/api/search', {  author:this.state.authorValue, title: this.state.titleValue})
                     .then((response)=>{
-                        if(!this.state.authorValue && !this.state.titleValue) return 
                         let state = this.state;
+                        if(!state.authorValue && !state.titleValue) return 
                         console.log(response, 'resposnds')
-                        if(!response) {state.emptyResponse = 'No results found.'
+                        if(!response) {
+                            state.emptyResponse = 'No results found.'
                             this.setState(state)    
                         }
-                        else state.searchResults = [...response.data.items]
-                        this.setState(state)
+                        else {
+                            
+                            state.searchResults = [...response.data.items]}
+                            console.log(state.searchResults)
+                            this.setState(state)
                     })
                 }
             }>
@@ -131,9 +135,9 @@ export default class Searchview extends React.Component{
             <div id='resultsDisplay'>
                 {
                     !this.state.searchResults.length && this.state.titleValue && this.state.authorValue ?
-                    <p>{this.state.emptyResponse}</p>:
-                
-                    <SearchDisplay resultsDisplay={this.state.searchResults} />
+                    <p>{this.state.emptyResponse}</p>
+                    :
+                     <SearchDisplay resultsDisplay={this.state.searchResults} updateParentState={this.props.updateParentState} />
                 } 
             </div>
         

@@ -10,6 +10,8 @@ const app = express()
 
 app.use(bodyParser.json())
 
+app.use(express.static('public'))
+
 //a debugging feature
 app.use(function(req, res, next){ 
   console.log(req.path) 
@@ -139,13 +141,24 @@ let search_query = {
   author: ''
 };
 
+function partitionData(items){
+  let result = items.reduce((rows, key, index) => (index % 10 === 0 ? rows.push([key]) 
+  : rows[rows.length-1].push(key)) && rows, []);
+  return result
+}
+
+
+
 app.post('/api/search', function(req,res){
   search_query['title'] = req.body.title
   search_query['author'] = req.body.author
   
   arxiv.search(search_query, function(err, results) {
     if(!results.items.length) res.json({message:'Sorry, no results were found. Try changing your query'})
-    else res.json(results)
+    else {
+      results.items = partitionData(results.items)
+      res.json(results)
+    }
   });
 })
 

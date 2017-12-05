@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Paginator from './paginator.jsx'
 
 
 
@@ -7,12 +7,22 @@ import React from 'react'
 export default class SearchView extends React.Component{
     constructor(props){
         super(props)
+        this.state={
+            index: 0
+        }
     }
+
+    selectIndex(index){
+        let state = this.state
+        state.index = index
+        this.setState(state)
+    }
+    // resultsDisplay will be a 2d array [[...ten items], [...ten items], [...ten items]]
     render(){
-        console.log(this.props.resultsDisplay)
+        console.log(this.props.resultsDisplay, 'DISPLAY')
     return(
             <div>{
-                this.props.resultsDisplay.map((result)=>{
+                this.props.resultsDisplay[this.state.index].map((result)=>{
                     return(
                      <div class ='searchResultCard'>
                         <ul>
@@ -44,6 +54,7 @@ export default class SearchView extends React.Component{
                     })
 
                 }
+                <Paginator pageCount ={ this.props.resultsDisplay.length } selectIndex= {this.selectIndex.bind(this)} />
             </div>
         )
     }
