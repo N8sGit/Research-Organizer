@@ -5,3 +5,9 @@
     font-size: 22px;
 
 }
+
+.searchResultCard{
+    border:5px;
+    border-style: groove;
+    margin:10px;
+}

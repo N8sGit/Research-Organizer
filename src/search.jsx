@@ -24,6 +24,16 @@ export default class Searchview extends React.Component{
          this.setState(state)
     }
 
+    updatePapers(items){
+        let state = this.state
+        let alreadySaved = state.papers.some(function(value){
+            return value.name === result.title
+        })
+        if(alreadySaved) return
+        state.papers.push(items)
+        this.setState(state)
+    }
+
     put(route, data={}){
         return axios.put(route, data)
             .catch((error)=>{
@@ -64,7 +74,8 @@ export default class Searchview extends React.Component{
                       this.setState(state)
                       } 
                     }> 
-                        {paper.name}
+                        {!paper.dropdown? <p className="fa fa-angle-down" aria-hidden="true">{paper.name} </p> : 
+                        <p className='fa fa-angle-up' aria-hidden='true'>{paper.name} </p>}
                         
                     </div>
                         <div>{paper.dropdown ? <PaperView paper={this.state.paperSelected}></PaperView> : console.log('')}</div>
@@ -137,7 +148,8 @@ export default class Searchview extends React.Component{
                     !this.state.searchResults.length && this.state.titleValue && this.state.authorValue ?
                     <p>{this.state.emptyResponse}</p>
                     :
-                     <SearchDisplay resultsDisplay={this.state.searchResults} updateParentState={this.props.updateParentState} />
+                     <SearchDisplay papers={this.state.papers} updatePapers={this.updatePapers.bind(this)} project={this.props.project} post={this.props.post} 
+                     resultsDisplay={this.state.searchResults} updateParentState={this.props.updateParentState} />
                 } 
             </div>
         

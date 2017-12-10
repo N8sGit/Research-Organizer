@@ -79,7 +79,6 @@ app.post('/api/paper', function(req,res){
           .catch(error =>{
             console.log(error)
           })
-        console.log(project.paperIds)
     })
     
     res.json({

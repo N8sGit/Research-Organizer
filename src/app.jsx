@@ -54,7 +54,7 @@ var Main = React.createClass({
 
 render: function() {
   
-  let projectsDisplay = this.state.projects;
+  let projectsDisplay = this.state.projects.slice(1);
  
   if(this.state.projectSelected) {
       return <SingleView project = {this.state.projectSelected} get={this.get} post ={this.post} goToMain = {this.goToMain}/>
@@ -80,10 +80,11 @@ render: function() {
 
             </input>
 
-            <button onClick = { () => {
+            <button type='button' onClick = { () => {
           this.post('/', {name: this.state.inputValue})
             .then((response)=>{
               let state = this.state;
+              if(!state.inputValue) return
               state.projects.push(response.data.info)
               this.setState(state) 
               })
@@ -108,7 +109,8 @@ render: function() {
                         } 
                       }> 
                         {
-                          project.name
+                         <p className="fa fa-book" aria-hidden="true"> {project.name} </p>
+                          
                         } 
                     </div>
                   )
