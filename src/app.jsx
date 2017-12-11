@@ -3,8 +3,6 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 import rd3 from 'react-d3';
 import Home from './home.jsx'
-import Footer from './footer.jsx'
-import Nav from './navbar.jsx'
 import SingleView from './singleview.jsx'
 import axios from 'axios'
 
@@ -56,7 +54,7 @@ var Main = React.createClass({
 
 render: function() {
   
-  let projectsDisplay = this.state.projects;
+  let projectsDisplay = this.state.projects.slice(1);
  
   if(this.state.projectSelected) {
       return <SingleView project = {this.state.projectSelected} get={this.get} post ={this.post} goToMain = {this.goToMain}/>
@@ -69,11 +67,11 @@ render: function() {
           </div>
           
         <div>
-          <h1> Welcome to Research Organizer, where the knowledge you need is always at hand. </h1>
+          <h1> Welcome to Research Organizer, where the knowledge you need is always at hand </h1>
             <ol>
               <ul> <p> To get started, simply click the start project button to add a project </p> </ul>
               <ul> <p> Search and save articles using the archive search api </p> </ul>
-              <ul> <p> Collect papers to save to the project folders. </p> </ul>
+              <ul> <p> Collect papers to save to the project folders </p> </ul>
             </ol>
 
           <div>
@@ -82,10 +80,11 @@ render: function() {
 
             </input>
 
-            <button onClick = { () => {
+            <button type='button' onClick = { () => {
           this.post('/', {name: this.state.inputValue})
             .then((response)=>{
               let state = this.state;
+              if(!state.inputValue) return
               state.projects.push(response.data.info)
               this.setState(state) 
               })
@@ -110,7 +109,8 @@ render: function() {
                         } 
                       }> 
                         {
-                          project.name
+                         <p className="fa fa-book" aria-hidden="true"> {project.name} </p>
+                          
                         } 
                     </div>
                   )
@@ -119,9 +119,6 @@ render: function() {
             </div>
           </div>
       </div>
-           <div>
-              <footer/> 
-           </div>
 </div>
         );
       }

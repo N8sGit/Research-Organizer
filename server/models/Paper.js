@@ -23,16 +23,15 @@ var Paper = db.define('Paper', {
     type: Sequelize.TEXT
   },
 
-  reference : {
-    type: Sequelize.STRING
-
+  note: {
+    type: Sequelize.TEXT
   }
 
 });
 
 Paper.sync({force:true}).then(() => {
   return Paper.create({
-    name:'initial test'
+    name:'initial'
   });
 });
 

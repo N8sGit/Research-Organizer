@@ -10,6 +10,8 @@ const app = express()
 
 app.use(bodyParser.json())
 
+app.use(express.static('public'))
+
 //a debugging feature
 app.use(function(req, res, next){ 
   console.log(req.path) 
@@ -47,18 +49,11 @@ app.post('/', function(req,res){
   })
 })
 
-app.post('/api/project', function(req,res){
-  let package = req.body
-  res.send(package)
-})
-
 app.get('/api/paper/:projectId', function(req,res){
-  console.log('routeHit')
   Project.findById(req.params.projectId)
   .then(project =>{
     let arrIds = project.paperIds.split(',')
     arrIds = arrIds.slice(0, arrIds.length-1)
-    console.log(arrIds, 'IDZZZ')
 
     Paper.findAll({
       where:{
@@ -66,7 +61,6 @@ app.get('/api/paper/:projectId', function(req,res){
       }
     })
     .then(papers =>{
-      console.log(papers, 'papses')
       res.json({
         message:'These are the papera associated with this project',
         info: papers
@@ -79,15 +73,12 @@ app.post('/api/paper', function(req,res){
   Paper.create(req.body)
   .then(function(newPaper){
     Project.findById(req.body.projectId)
-    .then(project =>{
-
-      project.paperIds += newPaper.id.toString() + ','     
-      
-      project.save()
-        .catch(error =>{
-          console.log(error)
-        })
-      console.log(project.paperIds)
+      .then(project =>{
+        project.paperIds += newPaper.id.toString() + ','     
+        project.save()
+          .catch(error =>{
+            console.log(error)
+          })
     })
     
     res.json({
@@ -102,31 +93,71 @@ app.put('/api/project/:projectId', function(req,res){
     .then(project =>{
       project.note = req.body.note;
       project.save()
-      .then(result =>{
-        res.json({project:project, message:'project updated'})
-      })
-        }).catch(error =>{
-          console.log(error)
+        .then(result =>{
+          res.json({project:project, message:'project updated'})
         })
+          }).catch(error =>{
+          console.log(error)
+          })
 })
+
+app.put('/api/paper/:paperId', function(req,res){
+  Paper.findById(req.params.paperId)
+    .then(paper =>{
+      paper.note = req.body.note;
+      paper.save()
+        .then(result =>{
+          res.json({paper:paper, message:'paper updated'})
+        })
+          }).catch(error =>{
+            console.log(error)
+          })
+})
+
+app.put('/api/project/remove/:projectId', function(req,res){
+  Project.findById(req.params.projectId)
+    .then(project =>{
+      let removal = req.body.paperId
+      console.log(removal, 'removal')
+      let arrIds = project.paperIds.split(',')
+      console.log(arrIds.splice(arrIds.indexOf(removal), 1), 'spliced')
+      arrIds = arrIds.filter(function(value){return value !== ''})
+      console.log(arrIds, 'arr ids')
+      project.paperIds = arrIds.join()
+      console.log(project.paperIds, 'after processing')
+      project.save()
+        .then(result =>{
+            res.json({project:project, message:'project updated'})
+        })
+    })
+})
+
+
+
 
 let search_query = {
   title: '',
   author: ''
 };
 
+function partitionData(items){
+  let result = items.reduce((rows, key, index) => (index % 10 === 0 ? rows.push([key]) 
+  : rows[rows.length-1].push(key)) && rows, []);
+  return result
+}
+
+
+
 app.post('/api/search', function(req,res){
   search_query['title'] = req.body.title
   search_query['author'] = req.body.author
   
   arxiv.search(search_query, function(err, results) {
-    // console.log(search_query, 'query')
-    // console.log(results)
-    // console.log('Found ' + results.items.length + ' results out of ' + results.total);
-    // console.log(results.items[0]);
-    // console.log(results.items[0].authors[0].name);
-    if(!results.items.length) res.json({message:'Sorry, no results were found. Try modifying your query'})
-    else res.json(results)
+    if(!results.items.length) res.json({message:'Sorry, no results were found. Try changing your query'})
+    else {
+      results.items = partitionData(results.items)
+      res.json(results)
+    }
   });
 })
 
