@@ -26,7 +26,7 @@ export default class SingleView extends React.Component {
        
   render() {
        return (
-       <div> 
+       <div id='singleView'> 
          <div> 
                <p> {this.props.project.name} </p>
                <p> {this.state.paperCount + ' projects saved'}</p>

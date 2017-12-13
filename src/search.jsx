@@ -27,7 +27,7 @@ export default class Searchview extends React.Component{
     updatePapers(items){
         let state = this.state
         let alreadySaved = state.papers.some(function(value){
-            return value.name === result.title
+            return value.name === items.title
         })
         if(alreadySaved) return
         state.papers.push(items)
@@ -66,7 +66,7 @@ export default class Searchview extends React.Component{
 
         <div>{paperDisplay.map((paper, index) =>{
                   return (
-                <div>
+                <div id='paperDisplay'>
                     <div onClick={ () => {
                       let state = this.state
                       state.paperSelected = paper

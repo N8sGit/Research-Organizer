@@ -3,6 +3,9 @@ import React from 'react'
 export default class Paginator extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            pageSelected: 0
+        }
     }
 
     render(){
@@ -15,12 +18,14 @@ export default class Paginator extends React.Component{
         return(
             <div>
                 {pageButtons.map((page)=>{
-                    return <p className='paginations' type='button' onClick ={()=>{
+                    return <div className='paginations' type='button' onClick ={()=>{
                             this.props.selectIndex(page)
+                            this.state.pageSelected = page
+                            this.setState(this.state)
                         }
                     }> 
-                        [{page}] 
-                    </p>
+                        {this.state.pageSelected===page ? <p id='pageSelected'>[{page}]</p>: <p>[{page}]</p>} 
+                    </div>
                     })
                 }
             </div>

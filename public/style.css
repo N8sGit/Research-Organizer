@@ -10,4 +10,21 @@
     border:5px;
     border-style: groove;
     margin:10px;
+    width:500px;
+}
+
+#singleView{
+    margin: auto;
+    width: 325px;
+}
+
+#paperDisplay{
+    border: 3px;
+    border-style: double;
+    box-shadow: 5px 10px #a8a8a8    
+
+}
+
+#pageSelected{
+    color: rgb(218, 50, 50)
 }
