@@ -13,6 +13,10 @@
     width:500px;
 }
 
+.projectItems{
+    cursor: pointer;
+}
+
 #singleView{
     margin: auto;
     width: 325px;
@@ -28,3 +32,9 @@
 #pageSelected{
     color: rgb(218, 50, 50)
 }
+
+#mainIcon{
+    float:right;
+}
+
+

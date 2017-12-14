@@ -62,8 +62,8 @@ render: function() {
   else {
     return (
 <div>
-          <div>
-            <nav/>  
+          <div id='mainIcon'>
+          <i className="fa fa-clipboard fa-5x" aria-hidden="true"></i> 
           </div>
           
         <div>
@@ -102,7 +102,7 @@ render: function() {
                 projectsDisplay.map((project) =>{
                   
                     return (
-                      <div onClick={ () => {
+                      <div className='projectItems' onClick={ () => {
                         let state = this.state
                         this.state.projectSelected = project 
                         this.setState(state)
