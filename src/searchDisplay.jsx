@@ -21,7 +21,7 @@ export default class SearchView extends React.Component{
         console.log(this.props.resultsDisplay, 'DISPLAY')
     return(
             <div>{
-                this.props.resultsDisplay[this.state.index].map((result)=>{
+               !this.props.resultsDisplay.length ? '' : this.props.resultsDisplay[this.state.index].map((result)=>{
                     return(
                      <div className ='searchResultCard'>
                         <ul>

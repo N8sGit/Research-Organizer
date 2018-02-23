@@ -8,8 +8,8 @@ export default class Searchview extends React.Component{
     constructor(props){
         super(props)
         this.state ={
-            authorValue: 'john smith',
-            titleValue: 'computer science',
+            authorValue: '',
+            titleValue: '',
             searchResults: [],
             papers: [],
             paperSelected: undefined,
@@ -116,12 +116,13 @@ export default class Searchview extends React.Component{
                         let state = this.state;
                         if(!state.authorValue && !state.titleValue) return 
                         console.log(response, 'resposnds')
-                        if(!response) {
+                        if(!response.data.items) {
+                            console.log('entered if')
                             state.emptyResponse = 'No results found.'
                             this.setState(state)    
                         }
                         else {
-                            
+                            console.log('entered else')
                             state.searchResults = [...response.data.items]}
                             console.log(state.searchResults)
                             this.setState(state)
